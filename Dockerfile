@@ -1,5 +1,6 @@
 # Offical Docker PHP & Apache image https://hub.docker.com/_/php/
 FROM php:7.0-apache
+LABEL maintainer "Kyle Lucy <kmlucy@gmail.com>"
 
 # Install deps
 RUN apt-get update && apt-get install -y \
