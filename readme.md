@@ -127,6 +127,14 @@ Stop with [CTRL + c]
 Start as background service:
 
 	$ docker-compose up -d
+	
+Stop the containers
+
+	$ sudo docker-compose down 
+
+Stop the containser and delete the volumes (remove database and all stored data)
+
+	$ sudo docker-compose down -v
 
 **Docker compose up will start two containers:**
 
@@ -180,7 +188,7 @@ Infomation about how files and databases work in Emoncms Docker.
 
 #### Storage
 
-Storage for feed engines e.g. `var/lib/phpfiwa` are mounted as persistent Docker file volumes e.g.`emon-phpfiwa`. Data stored in these folders is persistent if the container is stopped / started but cannot be accessed outside of the container.
+Storage for feed engines e.g. `var/lib/phpfiwa` are mounted as persistent Docker file volumes e.g.`emon-phpfiwa`. Data stored in these folders is persistent if the container is stopped / started but cannot be accessed outside of the container. See below for how to list and remove docker volumes.
 
 #### Database
 
@@ -191,9 +199,13 @@ Database storage `/var/lib/mysql/data` is mounted as persistent Docker volumes e
 
 ### Useful Docker commands
 
-Show running containers
+List running containers
 
 	$ docker ps
+	
+List all containsers 
+
+	$ docker ps -a
 
 Stop / kill all running containers:
 
@@ -206,13 +218,46 @@ Remove all containers:
 e.g. emon_web, emon_db
 
 	$ docker rm $(docker ps -a -q)
+	
+List all base images
 
+	$ docker image ls
+	
 Remove all images:
 
 e.g. Base images: php-apache, mysql, Ubuntu pulled from Dockerhub
 
 	$ docker rmi $(docker images -q)
 
+List docker volumes (where data is stored e.g database) 
+
+ 	$ docker volume ls
+
+Remove single or all docker volumes
+
+	$ docker volume rm <name_of_volume>
+	$ docker volume prune
+
 Attach a shell to a running container:
 
 	$ docker exec -it emoncmsdocker_web_1 /bin/bash
+
+****
+
+## Pushing to docker hub 
+
+From: https://docs.docker.com/docker-hub/repos/
+
+```
+$ docker login --username=yourhubusername --email=youremail@company.com
+$ docker tag openenergymonitor/emoncms:<tag-name>
+$ docker push openenergymonitor/emoncms:<tag-name>
+```
+Tag name should be the Emoncms version e.g 10.x.x
+
+Also push the latest version using `latest` tag
+
+```
+$ docker tag openenergymonitor/emoncms:latest
+$ docker tag openenergymonitor/emoncms:latest
+```
