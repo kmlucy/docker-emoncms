@@ -1,5 +1,5 @@
 # Offical Docker PHP & Apache image https://hub.docker.com/_/php/
-FROM php:7-apache
+FROM php:7.4-apache
 LABEL maintainer "Kyle Lucy <kmlucy@gmail.com>"
 
 # Install deps
@@ -7,13 +7,15 @@ RUN apt-get update && apt-get install -y \
               libcurl4-gnutls-dev \
               libmcrypt-dev \
               libmosquitto-dev \
+              gettext \
+              nano \
               git-core
 
 # Enable PHP modules
-RUN docker-php-ext-install -j$(nproc) mysqli curl json mcrypt gettext
-RUN pecl install redis-3.1.6 \
+RUN docker-php-ext-install -j$(nproc) mysqli curl json gettext
+RUN pecl install redis \
   \ && docker-php-ext-enable redis
-RUN pecl install Mosquitto-0.4.0 \
+RUN pecl install Mosquitto-beta \
   \ && docker-php-ext-enable mosquitto
 
 RUN a2enmod rewrite
