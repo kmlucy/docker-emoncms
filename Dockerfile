@@ -1,5 +1,5 @@
 # Offical Docker PHP & Apache image https://hub.docker.com/_/php/
-FROM php:7.0-apache
+FROM php:7-apache
 LABEL maintainer "Kyle Lucy <kmlucy@gmail.com>"
 
 # Install deps
